@@ -5,6 +5,9 @@ const StudentSchema = require('./students.js');
 
 const classSchema = new Schema({
     name: String,
-    date: Date,
-    students: {StudentSchema}
+    dateCreated: Date,
+    students: {StudentSchema},
+    _user: { type: Schema.Types.ObjectId, ref: "User" }
 })
+
+mongoose.model('classes', classSchema);

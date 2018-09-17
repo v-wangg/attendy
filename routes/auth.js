@@ -1,10 +1,7 @@
 const passport = require('passport');
+const keys = require('../config/keys');
 
 module.exports = app => {
-    app.get('/', (req, res) => {
-        res.send("Hi");
-    })
-
     app.get(
         '/api/auth/google', 
         passport.authenticate("google", {
@@ -16,7 +13,17 @@ module.exports = app => {
         '/api/auth/google/callback',
         passport.authenticate("google"),
         (req, res) => {
-            res.redirect('/')
+            res.redirect(keys.CLIENT_ROOT_URL)
         }
     )
+
+    app.get('/api/auth/current-user', (req, res) => {
+        res.send(req.user);
+        console.log(req.user);
+    })
+
+    app.get("/api/auth/sign-out", (req, res) => {
+        req.logout();
+        res.redirect(keys.CLIENT_ROOT_URL)
+    });
 }
