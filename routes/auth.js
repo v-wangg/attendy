@@ -19,7 +19,6 @@ module.exports = app => {
 
     app.get('/api/auth/current-user', (req, res) => {
         res.send(req.user);
-        console.log(req.user);
     })
 
     app.get("/api/auth/sign-out", (req, res) => {
