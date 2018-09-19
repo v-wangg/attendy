@@ -4,8 +4,11 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys.js');
+const cors = require('cors');
 
 require('./models/user');
+require('./models/class');
+require('./models/student');
 require('./services/passport');
 
 mongoose.connect(keys.MONGO_URI);
@@ -17,6 +20,7 @@ db.once('open', function() {
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
     cookieSession({
@@ -28,6 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/auth.js')(app);
+require('./routes/classes.js')(app);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));

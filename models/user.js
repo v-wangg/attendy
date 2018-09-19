@@ -4,7 +4,9 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     googleID: String,
     name: String,
-    staff: { type: Boolean, default: false }
+    email: String,
+    staff: { type: Boolean, default: false },
+    classIDs: { type: Array, default: [] }
 });
 
 mongoose.model('users', userSchema);

@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const studentSchema = new Schema({
-    email: String,
     name: String,
+    email: String,
     googleID: String,
-    present: Boolean
+    present: Boolean,
+    classIDs: Array 
 })
 
 module.exports = studentSchema;

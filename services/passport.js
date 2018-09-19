@@ -15,6 +15,13 @@ passport.deserializeUser((id, done) => {
     })
 });
 
+const isStaff = (email) => {
+    if (email == "s.t@berkeley.edu" || email == "gwynevere.hunger@berkeley.edu" || email == "vincent.ht.wang@gmail.com") {
+        return true;
+    }
+    return false;
+}
+
 passport.use(
     new GoogleStrategy({
         clientID: keys.GOOGLE_CLIENT_ID,
@@ -27,8 +34,14 @@ passport.use(
         if (existingUser) {
             return done(null, existingUser);
         }
-        console.log(profile);
-        const savedUser = await new User({ googleID: profile.id, name: profile.displayName }).save();
+
+        const savedUser = await new User({ 
+            googleID: profile.id, 
+            name: profile.displayName, 
+            email: profile.emails[0].value,
+            staff: isStaff(profile.emails[0].value)
+        }).save();
+
         done(null, savedUser);
     })
 );
